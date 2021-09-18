@@ -1,17 +1,22 @@
 import "package:flutter/material.dart";
-import 'package:flutter_application_2/homePage.dart';
+import 'package:flutter_application_2/pages/homePage.dart';
+import 'package:flutter_application_2/pages/loginPage.dart';
 
 void main() {
-  runApp(myApp());
+  runApp(MyApp());
 }
 
-class myApp extends StatelessWidget {
-  const myApp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      initialRoute: "/login",
+      routes: {
+        "/": (context) => HomePage(),
+        "/login": (context) => LoginPage(),
+      },
     );
   }
 }
