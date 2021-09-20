@@ -18,9 +18,10 @@ class LoginPage extends StatelessWidget {
           ),
           Text(
             "Login",
-            style: GoogleFonts.oswald(
+            style: GoogleFonts.lato(
               fontSize: 30,
               fontWeight: FontWeight.bold,
+              color: Colors.blue,
             ),
           ),
           Padding(
@@ -34,9 +35,10 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 TextFormField(
+                  obscureText: true,
                   decoration: InputDecoration(
                     hintText: "Enter password",
-                    labelText: "password",
+                    labelText: "Password",
                   ),
                 )
               ],
