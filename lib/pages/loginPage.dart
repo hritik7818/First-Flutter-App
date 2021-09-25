@@ -12,98 +12,103 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String name = "";
   bool changeButton = false;
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.asset(
-              "assets/images/loginImage.png",
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-              "Welcome $name",
-              style: GoogleFonts.lato(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Image.asset(
+                "assets/images/hey.png",
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                      hintText: "Enter email or username",
-                      labelText: "Email or username",
-                    ),
-                    onChanged: (value) {
-                      name = value;
-                      setState(() {});
-                    },
-                  ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: "Enter password",
-                      labelText: "Password",
-                    ),
-                  )
-                ],
+              SizedBox(
+                height: 15,
               ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-
-            //* designing a button
-            //* adding some on animation when button-click
-
-            //* to make a container clickable we wrap the container with InkWell container.
-            InkWell(
-              onTap: () async {
-                setState(() {
-                  changeButton = true;
-                });
-                await Future.delayed(Duration(seconds: 1));
-                Navigator.pushNamed(context, MyRoutes.homePage);
-              },
-              child: AnimatedContainer(
-                duration: Duration(seconds: 1),
-                height: 50,
-                width: changeButton ? 50 : 150,
-                //* assigning the text to button.
-                child: Text(
-                  "Login",
-                  style: GoogleFonts.lato(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                alignment: Alignment.center,
-                //* Assignment border to the button.
-                decoration: BoxDecoration(
+              Text(
+                "Welcome $name",
+                style: GoogleFonts.lato(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
                   color: Colors.blue,
-                  borderRadius: BorderRadius.circular(changeButton ? 50 : 8),
                 ),
               ),
-            ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.pushNamed(context, MyRoutes.homePage);
-            //   },
-            //   child: Text("login"),
-            //   style: TextButton.styleFrom(
-            //     minimumSize: Size(150, 50),
-            //   ),
-            // ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(
+                        hintText: "Enter email or username",
+                        labelText: "Email or username",
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Username can't be empty";
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        name = value;
+                        setState(() {});
+                      },
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: "Enter password",
+                        labelText: "Password",
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+
+              //* designing a button
+              //* adding some on animation when button-click
+
+              //* to make a container clickable we wrap the container with InkWell container.
+              InkWell(
+                onTap: () async {
+                  if (_formKey.currentState!.validate()) {
+                    setState(() {
+                      changeButton = true;
+                    });
+                    await Future.delayed(Duration(seconds: 1));
+                    await Navigator.pushNamed(context, MyRoutes.homePage);
+                    changeButton = false;
+                    setState(() {});
+                  }
+                },
+                child: AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  height: 50,
+                  width: changeButton ? 50 : 150,
+                  //* assigning the text to button.
+                  child: Text(
+                    "Login",
+                    style: GoogleFonts.lato(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  //* Assignment border to the button.
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(changeButton ? 50 : 8),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
