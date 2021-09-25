@@ -13,6 +13,19 @@ class _LoginPageState extends State<LoginPage> {
   String name = "";
   bool changeButton = false;
   final _formKey = GlobalKey<FormState>();
+
+  moveToHomePage(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        changeButton = true;
+      });
+      await Future.delayed(Duration(seconds: 1));
+      await Navigator.pushNamed(context, MyRoutes.homePage);
+      changeButton = false;
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -62,6 +75,14 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: "Enter password",
                         labelText: "Password",
                       ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Password can't be empty";
+                        } else if (value.length < 6) {
+                          return "Password length should be at 6 letter";
+                        }
+                        return null;
+                      },
                     )
                   ],
                 ),
@@ -69,23 +90,13 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 40,
               ),
-
               //* designing a button
+
               //* adding some on animation when button-click
 
               //* to make a container clickable we wrap the container with InkWell container.
               InkWell(
-                onTap: () async {
-                  if (_formKey.currentState!.validate()) {
-                    setState(() {
-                      changeButton = true;
-                    });
-                    await Future.delayed(Duration(seconds: 1));
-                    await Navigator.pushNamed(context, MyRoutes.homePage);
-                    changeButton = false;
-                    setState(() {});
-                  }
-                },
+                onTap: () => moveToHomePage(context),
                 child: AnimatedContainer(
                   duration: Duration(seconds: 1),
                   height: 50,
